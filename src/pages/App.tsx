@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Task } from '../components/Task'
 import { ApiException } from '../services/api/ApiException'
 import { TasksService, ITask } from '../services/api/Tarefas/TasksService'
@@ -6,7 +6,7 @@ import { TasksService, ITask } from '../services/api/Tarefas/TasksService'
 function App() {
 
   const [tasks, setTasks] = useState<ITask[]>([])
-  const [newTaskInput, setNewTaskInput] = useState('')
+  const addTaskInput = useRef<HTMLInputElement>(null)
 
   // Pega a lista de tarefas do banco de dados na primeira renderização da página
   useEffect(() => {
@@ -16,10 +16,13 @@ function App() {
   }, [])
 
   const handleCreateTask = useCallback(() => {
-    if (newTaskInput.trim().length === 0) return
-    if (tasks.some((task) => task.info === newTaskInput.trim())) return
+    const taskInput = addTaskInput.current?.value
 
-    TasksService.create({ info: newTaskInput.trim(), isCompleted: false })
+    if (!taskInput) return
+    if (taskInput.trim().length === 0) return
+    if (tasks.some((task) => task.info === taskInput.trim())) return
+
+    TasksService.create({ info: taskInput.trim(), isCompleted: false })
       .then((result => {
         if (result instanceof ApiException) {
           alert(result.message)
@@ -27,7 +30,7 @@ function App() {
           setTasks((oldTasks) => [...oldTasks, result])
         }
       }))
-  }, [newTaskInput, tasks])
+  }, [addTaskInput, tasks])
 
   const handleDeleteTask = useCallback((id: string) => {
     TasksService.deleteById(id)
@@ -69,7 +72,9 @@ function App() {
       </header>
       <main className='flex flex-col max-w-3xl mt-4 m-auto gap-4 '>
         <label className='flex'>
-          <input type="text" value={newTaskInput} onKeyDown={e => { if (e.key === 'Enter') { handleCreateTask() } }} onChange={e => setNewTaskInput(e.target.value)}
+          <input type="text" 
+            ref={addTaskInput}
+            onKeyDown={e => {if (e.key === 'Enter') { handleCreateTask() }}}
             className="flex flex-grow items-center justify-center px-4 py-2 min-w-96 bg-violet-500 rounded-l-sm"
           />
           <button onClick={handleCreateTask} className="flex items-center justify-center px-4 py-2 min-w-96 bg-violet-600 active:bg-violet-700 rounded-r-sm">

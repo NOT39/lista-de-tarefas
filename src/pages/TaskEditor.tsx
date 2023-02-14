@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ApiException } from '../services/api/ApiException'
 import { TasksService } from '../services/api/Tarefas/TasksService'
 
-
 export const TaskEditor = () => {
+  const navigate = useNavigate()
   const { taskId } = useParams()
+
   const [ isCompleted, setIsCompleted ] = useState(false)
   const [ newTaskInfo, setNewTaskInfo ] = useState('')
 
@@ -17,6 +18,7 @@ export const TaskEditor = () => {
         if(result instanceof ApiException) alert(result.message)
 
         alert('Tarefa salva com sucesso!')
+        navigate('/')
       })
   }, [newTaskInfo, isCompleted])
 
@@ -28,6 +30,7 @@ export const TaskEditor = () => {
         if(result instanceof ApiException) alert(result.message)
         
         alert('Tarefa deletada com sucesso!')
+        navigate('/')
       })
   }, [taskId])
 
