@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Task } from '../components/Task'
-import { ApiException } from '../services/api/ApiException'
-import { TasksService, ITask } from '../services/api/Tarefas/TasksService'
+import { Task } from '../../components'
+import { ApiException, TasksService, ITask } from '../../services'
 
-function App() {
+export const App = () => {
 
   const [tasks, setTasks] = useState<ITask[]>([])
   const addTaskInput = useRef<HTMLInputElement>(null)
@@ -98,5 +97,3 @@ function App() {
     </div>
   )
 }
-
-export default App

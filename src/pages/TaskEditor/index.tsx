@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ApiException } from '../services/api/ApiException'
-import { TasksService } from '../services/api/Tarefas/TasksService'
+import { ApiException, TasksService } from '../../services'
 
 export const TaskEditor = () => {
   const navigate = useNavigate()

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ITask } from '../services/api/Tarefas/TasksService'
+import { ITask } from '../../services'
 
 interface ITaskProps {
   content: ITask

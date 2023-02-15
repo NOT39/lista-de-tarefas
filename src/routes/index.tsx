@@ -1,7 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import App from '../pages/App'
-import ErrorPage from '../pages/ErrorPage'
-import { TaskEditor } from '../pages/TaskEditor'
+import { TaskEditor, ErrorPage, App } from '../pages'
 
 const AppRoutes = createBrowserRouter([
   {
